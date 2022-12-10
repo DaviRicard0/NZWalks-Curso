@@ -6,7 +6,7 @@ public class RegionsProfile:Profile
 {
 	public RegionsProfile()
 	{
-		CreateMap<Domain.Region,DTO.Region>()
+		CreateMap<Domain.Region, DTO.Region>()
 			.ReverseMap();
 	}
 }
