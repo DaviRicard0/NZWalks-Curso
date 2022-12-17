@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
 
 namespace NZWalks.API.Repositories;
 
