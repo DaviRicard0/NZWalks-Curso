@@ -22,24 +22,6 @@ namespace NZWalks.API.Controllers
         {
             var regions = await regionRepository.GetAllAsync();
 
-            //Return DTO Regions
-            //var regionsDTO = new List<Models.DTO.Region>();
-            //regions.ToList().ForEach(region =>
-            //{
-            //    var regionDTO = new Models.DTO.Region()
-            //    {
-            //        Id = region.Id,
-            //        Code = region.Code,
-            //        Name = region.Name,
-            //        Area = region.Area,
-            //        Lat = region.Lat,
-            //        Long = region.Long,
-            //        Population = region.Population
-            //    };
-
-            //    regionsDTO.Add(regionDTO);
-            //});
-
             var regionsDTO = mapper.Map<List<Models.DTO.Region>>(regions);
 
             return Ok(regionsDTO);
@@ -65,6 +47,11 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.RegionRequest regionRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var region = new Models.Domain.Region()
             {
                 Code= regionRequest.Code,
@@ -110,6 +97,11 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody]Models.DTO.RegionRequest regionRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var region = new Models.Domain.Region()
             {
                 Code = regionRequest.Code,

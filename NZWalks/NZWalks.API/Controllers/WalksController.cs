@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
@@ -9,12 +10,16 @@ namespace NZWalks.API.Controllers
     public class WalksController : Controller
     {
         private readonly IWalkRepository walkRepository;
+        private readonly IRegionRepository regionRepository;
+        private readonly IWalkDifficultyRepository walkDifficultyRepository;
         private readonly IMapper mapper;
 
-        public WalksController(IWalkRepository walkRepository, IMapper mapper)
+        public WalksController(IWalkRepository walkRepository, IRegionRepository regionRepository, IMapper mapper, IWalkDifficultyRepository walkDifficultyRepository)
         {
-            this.walkRepository = walkRepository;
             this.mapper = mapper;
+            this.walkRepository = walkRepository;
+            this.regionRepository = regionRepository;
+            this.walkDifficultyRepository = walkDifficultyRepository;
         }
 
         [HttpGet]
@@ -47,6 +52,13 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkAsync(Models.DTO.WalkRequest walkRequest)
         {
+            await ValidateWalkAsync(walkRequest);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var walk = new Models.Domain.Walk()
             {
                 Name= walkRequest.Name,
@@ -82,6 +94,12 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.WalkRequest walkRequest)
         {
+            await ValidateWalkAsync(walkRequest);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var walk = new Models.Domain.Walk()
             {
                 Length = walkRequest.Length,
@@ -99,5 +117,32 @@ namespace NZWalks.API.Controllers
 
             return Ok(walkDTO);
         }
+
+
+        #region Private Methods
+
+        private async Task<bool> ValidateWalkAsync(WalkRequest walkRequest)
+        {
+            var region = await regionRepository.GetAsync(walkRequest.RegionId);
+            if (region is null)
+            {
+                ModelState.AddModelError(nameof(walkRequest.RegionId), $"{nameof(walkRequest.RegionId)} is invalid.");
+            }
+
+            var walkDifficulty = await walkDifficultyRepository.GetAsync(walkRequest.WalkDifficultyId);
+            if (walkDifficulty is null)
+            {
+                ModelState.AddModelError(nameof(walkRequest.WalkDifficultyId), $"{nameof(walkRequest.WalkDifficultyId)} is invalid.");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }
