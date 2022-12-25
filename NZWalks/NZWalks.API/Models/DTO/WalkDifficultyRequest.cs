@@ -4,6 +4,6 @@ namespace NZWalks.API.Models.DTO;
 
 public class WalkDifficultyRequest
 {
-    [Required]
+    //[Required]
     public string Code { get; set; }
 }

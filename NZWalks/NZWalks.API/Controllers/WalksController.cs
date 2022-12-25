@@ -52,9 +52,7 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkAsync(Models.DTO.WalkRequest walkRequest)
         {
-            await ValidateWalkAsync(walkRequest);
-
-            if (!ModelState.IsValid)
+            if (!await ValidateWalkAsync(walkRequest))
             {
                 return BadRequest(ModelState);
             }
@@ -94,8 +92,7 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.WalkRequest walkRequest)
         {
-            await ValidateWalkAsync(walkRequest);
-            if (!ModelState.IsValid)
+            if (!await ValidateWalkAsync(walkRequest))
             {
                 return BadRequest(ModelState);
             }

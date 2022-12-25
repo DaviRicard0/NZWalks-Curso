@@ -48,10 +48,10 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkDifficultyAsync(Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
 
             var walkDifficulty = new Models.Domain.WalkDifficulty()
@@ -70,10 +70,10 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute] Guid id, [FromBody] Models.DTO.WalkDifficultyRequest walkDifficultyRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
 
             var walkDifficulty = new Models.Domain.WalkDifficulty()

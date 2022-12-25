@@ -4,18 +4,18 @@ namespace NZWalks.API.Models.DTO;
 
 public class WalkRequest
 {
-    [Required]
+    //[Required]
     public string Name { get; set; }
 
-    [Required]
-    [Range(1, double.MaxValue)]
+    //[Required]
+    //[Range(1, double.MaxValue)]
     public double Length { get; set; }
 
     #region Foreign key
-    [Required]
+    //[Required]
     public Guid RegionId { get; set; }
 
-    [Required]
+    //[Required]
     public Guid WalkDifficultyId { get; set; }
     #endregion
 }

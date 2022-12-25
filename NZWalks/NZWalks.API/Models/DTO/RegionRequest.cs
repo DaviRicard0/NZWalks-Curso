@@ -6,25 +6,25 @@ namespace NZWalks.API.Models.DTO;
 
 public class RegionRequest
 {
-    [Required]
+    //[Required]
     public string Code { get; set; }
 
-    [Required]
+    //[Required]
     public string Name { get; set; }
 
-    [Required]
-    [Range(1, Double.PositiveInfinity)]
+    //[Required]
+    //[Range(1, Double.PositiveInfinity)]
     public double Area { get; set; }
-
-    [Required]
-    [Range(1, Double.PositiveInfinity)]
+    
+    //[Required]
+    //[Range(1, Double.PositiveInfinity)]
     public double Lat { get; set; }
 
-    [Required]
-    [Range(1, Double.PositiveInfinity)]
+    //[Required]
+    //[Range(1, Double.PositiveInfinity)]
     public double Long { get; set; }
 
-    [Required]
-    [Range(0, Double.PositiveInfinity)]
+    //[Required]
+    //[Range(0, Double.PositiveInfinity)]
     public long Population { get; set; }
 }
